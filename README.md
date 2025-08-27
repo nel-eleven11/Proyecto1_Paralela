@@ -17,5 +17,5 @@ cmake --build build -j
 
 Ejecutar
 ```bash
-./build/screensaver --width w --height h --fps_target f --N n
+./build/screensaver --width w --height h --N n
 ```
