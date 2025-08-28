@@ -1,47 +1,60 @@
 cmake_minimum_required(VERSION 3.20)
 project(screensaver-openmp LANGUAGES C CXX)
 
-# Estándar y warnings
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Warnings
 if (MSVC)
-  add_compile_options(/W4)
+  add_compile_options(/W4 /permissive-)
 else()
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# OpenMP (aún no se usa, pero lo detectamos)
+# SDL2
+find_package(SDL2 REQUIRED)
+
+# OpenMP (para etapa futura; NO usado aún)
 find_package(OpenMP)
 if (OpenMP_CXX_FOUND)
   message(STATUS "OpenMP encontrado: ${OpenMP_CXX_VERSION}")
 endif()
 
-# SDL2 (requerido) y SDL2_ttf (opcional)
-find_package(SDL2 REQUIRED)
-find_package(SDL2_ttf QUIET)
-
 add_executable(screensaver
   src/main.cpp
+  src/waves.cpp
+  src/model_seq.cpp
+  src/shading.cpp
+  src/render_sdl.cpp
 )
 
-target_include_directories(screensaver PRIVATE ${SDL2_INCLUDE_DIRS})
-target_link_libraries(screensaver PRIVATE SDL2::SDL2)
+target_include_directories(screensaver PRIVATE
+  ${SDL2_INCLUDE_DIRS}
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
-# SDL2_ttf opcional (aún no lo usamos en fase 1)
-if (SDL2_TTF_FOUND)
-  target_compile_definitions(screensaver PRIVATE HAVE_SDL_TTF=1)
-  target_link_libraries(screensaver PRIVATE SDL2_ttf::SDL2_ttf)
+# Enlazar SDL2
+target_link_libraries(screensaver PRIVATE SDL2::SDL2)
+if (TARGET SDL2::SDL2main)
+  target_link_libraries(screensaver PRIVATE SDL2::SDL2main)
 endif()
 
-# OpenMP opcional (no usado en fase 1)
+# OpenMP (para la fase paralela futura)
 if (OpenMP_CXX_FOUND)
   target_compile_definitions(screensaver PRIVATE HAVE_OPENMP=1)
   target_link_libraries(screensaver PRIVATE OpenMP::OpenMP_CXX)
 endif()
 
-# Optimización razonable en release
+# Optimización
 if (CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
-  if (NOT MSVC)
-    target_compile_options(screensaver PRIVATE -O2)
+  if (MSVC)
+    target_compile_options(screensaver PRIVATE /O2 /fp:fast)
+  else()
+    target_compile_options(screensaver PRIVATE -O3 -ffast-math -fno-math-errno -fno-trapping-math)
+    include(CheckCXXCompilerFlag)
+    check_cxx_compiler_flag("-march=native" HAS_MARCH_NATIVE)
+    if (HAS_MARCH_NATIVE)
+      target_compile_options(screensaver PRIVATE -march=native)
+    endif()
   endif()
 endif()
