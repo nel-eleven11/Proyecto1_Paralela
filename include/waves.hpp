@@ -27,6 +27,9 @@ struct Drop {
     float splash_r0;
     int   splash_m;
     float splash_phi;
+
+    // color de la gota (tinta 0..1 por canal)
+    float col_r, col_g, col_b;
 };
 
 struct WaveParams {
@@ -52,7 +55,12 @@ struct World {
     WaveParams wp;
     RNG rng;
     std::vector<Drop> drops;
-    std::vector<float> H; // heightfield (W*H)
+    std::vector<float> H;   // heightfield
+    std::vector<float> CR;  // tinta R
+    std::vector<float> CG;  // tinta G
+    std::vector<float> CB;  // tinta B
+
+    int nextColorIdx = 0;   // para ciclar colores de gotas
 
     World(const AppConfig& c);
 
@@ -61,5 +69,5 @@ struct World {
     void maybe_respawn(float now_s);
 };
 
-// contribucion de una gota en (x,y) al tiempo t
+// contribución de onda realista (main + capilares + splash)
 float ripple_contrib(float x, float y, float t, const Drop& d);

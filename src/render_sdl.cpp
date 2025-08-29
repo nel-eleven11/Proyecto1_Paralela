@@ -1,3 +1,2 @@
 #include "render_sdl.hpp"
-// Archivo reservado por si luego separan más helpers de SDL.
-// (La funcionalidad principal está en shading.cpp con create_pixel_buffer())
+// Helpers de SDL centralizados en shading.cpp (create_pixel_buffer + present).

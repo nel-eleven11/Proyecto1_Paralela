@@ -7,6 +7,7 @@
 #include "waves.hpp"
 #include "model.hpp"
 #include "shading.hpp"
+#include "ink.hpp"
 
 int main(int argc, char** argv) {
     try {
@@ -18,7 +19,7 @@ int main(int argc, char** argv) {
         }
 
         SDL_Window* window = SDL_CreateWindow(
-            "Rain Ripples (Secuencial)",
+            "Rain Ripples (Secuencial + Ink)",
             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
             cfg.width, cfg.height, SDL_WINDOW_SHOWN
         );
@@ -82,19 +83,30 @@ int main(int argc, char** argv) {
 
             world.maybe_respawn(t_now);
 
-            // ---- Perfilado opcional ----
+            // ---- Simulación + inyección de tinta ----
             Uint64 tA = 0, tB = 0, tC = 0;
             if (cfg.profile) tA = SDL_GetPerformanceCounter();
 
-            // Simulación secuencial (con culling en model_seq.cpp)
-            accumulate_heightfield_sequential(world.H, cfg.width, cfg.height, world.drops, t_now);
+            accumulate_heightfield_sequential(
+                world.H, world.CR, world.CG, world.CB,
+                cfg.width, cfg.height, world.drops, t_now,
+                cfg.ink_enabled, cfg.ink_gain
+            );
+
+            // Difusión/decay de tinta
+            ink_postprocess(world.CR, world.CG, world.CB,
+                            cfg.width, cfg.height,
+                            float(dt), cfg.ink_decay, cfg.ink_blur_mix);
 
             if (cfg.profile) tB = SDL_GetPerformanceCounter();
 
-            // Render
+            // ---- Render ----
             SDL_SetRenderDrawColor(renderer, 8,12,18,255);
             SDL_RenderClear(renderer);
-            shade_and_present(renderer, pb, world.H, cfg.slope, cfg.palette);
+            shade_and_present(renderer, pb, world.H,
+                              world.CR, world.CG, world.CB,
+                              cfg.slope, cfg.palette,
+                              cfg.ink_enabled, cfg.ink_strength);
             SDL_RenderPresent(renderer);
 
             if (cfg.profile) {
@@ -102,18 +114,16 @@ int main(int argc, char** argv) {
                 double k = 1000.0 / double(pf);
                 double sim_ms   = (tB - tA) * k;
                 double shade_ms = (tC - tB) * k;
-                std::cout << "sim=" << sim_ms << " ms, shade+present=" << shade_ms << " ms\n";
+                std::cout << "sim+ink=" << sim_ms << " ms, shade+present=" << shade_ms << " ms\n";
             }
 
-            // FPS (cada ~1s)
+            // ---- FPS (cada ~1s) ----
             fps_accum += dt; fps_frames++;
             if (fps_accum >= 1.0) {
                 double fps_inst = fps_frames / fps_accum;
                 fps_smoothed = (fps_smoothed==0.0) ? fps_inst : (0.8*fps_smoothed + 0.2*fps_inst);
                 update_title(fps_smoothed);
-                if (cfg.fpslog) {
-                    std::cout << "FPS= " << fps_smoothed << "\n";
-                }
+                if (cfg.fpslog) std::cout << "FPS= " << fps_smoothed << "\n";
                 fps_accum = 0.0; fps_frames = 0;
             }
         }
