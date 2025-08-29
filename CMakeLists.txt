@@ -14,7 +14,7 @@ endif()
 # SDL2
 find_package(SDL2 REQUIRED)
 
-# OpenMP (para etapa futura; NO usado aún)
+# OpenMP (futuro; no usado aquí)
 find_package(OpenMP)
 if (OpenMP_CXX_FOUND)
   message(STATUS "OpenMP encontrado: ${OpenMP_CXX_VERSION}")
@@ -26,6 +26,7 @@ add_executable(screensaver
   src/model_seq.cpp
   src/shading.cpp
   src/render_sdl.cpp
+  src/ink.cpp
 )
 
 target_include_directories(screensaver PRIVATE
@@ -39,7 +40,7 @@ if (TARGET SDL2::SDL2main)
   target_link_libraries(screensaver PRIVATE SDL2::SDL2main)
 endif()
 
-# OpenMP (para la fase paralela futura)
+# OpenMP (para fase paralela)
 if (OpenMP_CXX_FOUND)
   target_compile_definitions(screensaver PRIVATE HAVE_OPENMP=1)
   target_link_libraries(screensaver PRIVATE OpenMP::OpenMP_CXX)
