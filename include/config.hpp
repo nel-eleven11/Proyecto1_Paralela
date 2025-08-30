@@ -15,6 +15,9 @@ struct AppConfig {
     int   palette = 2;      // 0=aqua, 1=mix, 2=real (defecto)
     bool  novsync = false;  // medir cómputo puro
     bool  profile = false;  // tiempos sim/render
+    
+    // ---- Spawn control ----
+    float spawn_rate = 1.0f;  // multiplier for drop lifespan (higher = slower spawn)
 
     // ---- Tinta/mezcla ----
     bool  ink_enabled   = true;   // habilitar tinte multicolor
@@ -26,7 +29,7 @@ struct AppConfig {
 
 inline void print_usage(const char* prog) {
     std::cout << "Uso: " << prog
-              << " --width W --height H --N N [--seed S] [--slope K]"
+              << " --width W --height H --N N [--seed S] [--slope K] [--spawn-rate R]"
                  " [--fpslog] [--palette {aqua|mix|real}] [--novsync] [--profile]"
                  " [--ink {0|1}] [--ink-gain G] [--ink-decay L] [--ink-blur B] [--ink-strength S]\n";
 }
@@ -51,6 +54,7 @@ inline AppConfig parse_args(int argc, char** argv) {
         else if (a=="--N"||a=="-n"){ const char* v=need(a.c_str()); if(!parse_int(v,cfg.N,1,std::numeric_limits<int>::max())) throw std::runtime_error("N invalido (>=1)"); gotN=true; }
         else if (a=="--seed"){ const char* v=need(a.c_str()); int tmp; if(!parse_int(v,tmp,-1,std::numeric_limits<int>::max())) throw std::runtime_error("seed invalida"); cfg.seed=tmp; }
         else if (a=="--slope"){ const char* v=need(a.c_str()); float tmp; if(!parse_float(v,tmp,0.1f,40.0f)) throw std::runtime_error("slope invalida (0.1..40)"); cfg.slope=tmp; }
+        else if (a=="--spawn-rate"){ const char* v=need(a.c_str()); float tmp; if(!parse_float(v,tmp,0.1f,10.0f)) throw std::runtime_error("spawn-rate invalida (0.1..10)"); cfg.spawn_rate=tmp; }
         else if (a=="--fpslog"){ cfg.fpslog=true; }
         else if (a=="--palette"){ const char* v=need(a.c_str()); std::string s=v; if(s=="aqua") cfg.palette=0; else if(s=="mix"||s=="aquamix") cfg.palette=1; else if(s=="real") cfg.palette=2; else throw std::runtime_error("palette invalida (aqua|mix|real)"); }
         else if (a=="--novsync"){ cfg.novsync=true; }

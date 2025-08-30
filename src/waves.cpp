@@ -39,7 +39,7 @@ void World::respawn_drop(Drop& d, float now_s) {
     d.sigma = rng.rb(wp.sigma_min, wp.sigma_max);
     d.f     = rng.rb(wp.f_min, wp.f_max);
     d.c     = rng.rb(wp.c_min, wp.c_max);
-    d.maxLife = rng.rb(wp.life_min, wp.life_max);
+    d.maxLife = rng.rb(wp.life_min, wp.life_max) * cfg.spawn_rate;
 
     d.cap_delta = rng.rb(wp.cap_delta_min, wp.cap_delta_max);
     d.cap_sigma = rng.rb(wp.cap_sigma_min, wp.cap_sigma_max);
