@@ -29,33 +29,59 @@ add_executable(screensaver
   src/ink.cpp
 )
 
+add_executable(screensaver_parallel
+  src/main_parallel.cpp
+  src/waves.cpp
+  src/model_parallel.cpp
+  src/shading_parallel.cpp
+  src/render_sdl.cpp
+  src/ink_parallel.cpp
+)
+
 target_include_directories(screensaver PRIVATE
   ${SDL2_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-# Enlazar SDL2
+target_include_directories(screensaver_parallel PRIVATE
+  ${SDL2_INCLUDE_DIRS}
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+# Enlazar SDL2 (sequential)
 target_link_libraries(screensaver PRIVATE SDL2::SDL2)
 if (TARGET SDL2::SDL2main)
   target_link_libraries(screensaver PRIVATE SDL2::SDL2main)
+endif()
+
+# Enlazar SDL2 (parallel)  
+target_link_libraries(screensaver_parallel PRIVATE SDL2::SDL2)
+if (TARGET SDL2::SDL2main)
+  target_link_libraries(screensaver_parallel PRIVATE SDL2::SDL2main)
 endif()
 
 # OpenMP (para fase paralela)
 if (OpenMP_CXX_FOUND)
   target_compile_definitions(screensaver PRIVATE HAVE_OPENMP=1)
   target_link_libraries(screensaver PRIVATE OpenMP::OpenMP_CXX)
+  
+  target_compile_definitions(screensaver_parallel PRIVATE HAVE_OPENMP=1)
+  target_link_libraries(screensaver_parallel PRIVATE OpenMP::OpenMP_CXX)
 endif()
 
 # Optimización
 if (CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
   if (MSVC)
     target_compile_options(screensaver PRIVATE /O2 /fp:fast)
+    target_compile_options(screensaver_parallel PRIVATE /O2 /fp:fast)
   else()
     target_compile_options(screensaver PRIVATE -O3 -ffast-math -fno-math-errno -fno-trapping-math)
+    target_compile_options(screensaver_parallel PRIVATE -O3 -ffast-math -fno-math-errno -fno-trapping-math)
     include(CheckCXXCompilerFlag)
     check_cxx_compiler_flag("-march=native" HAS_MARCH_NATIVE)
     if (HAS_MARCH_NATIVE)
       target_compile_options(screensaver PRIVATE -march=native)
+      target_compile_options(screensaver_parallel PRIVATE -march=native)
     endif()
   endif()
 endif()
