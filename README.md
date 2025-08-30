@@ -228,4 +228,6 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo && cmake --build build -j
 ./build/screensaver -w 800 -h 600 -n 6 --fpslog
 ./build/screensaver -w 1280 -h 720 -n 10 --palette real --profile
 ./build/screensaver -w 1024 -h 768 -n 8 --palette aqua --slope 5
+
+./build/screensaver_parallel --width 800 --height 600 --N 5 --spawn-rate 0.5
 ```
