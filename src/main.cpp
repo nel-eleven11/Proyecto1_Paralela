@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
             Uint64 tA = 0, tB = 0, tC = 0;
             if (cfg.profile) tA = SDL_GetPerformanceCounter();
 
-            accumulate_heightfield_sequential(
+            accumulate_heightfield(
                 world.H, world.CR, world.CG, world.CB,
                 cfg.width, cfg.height, world.drops, t_now,
                 cfg.ink_enabled, cfg.ink_gain
