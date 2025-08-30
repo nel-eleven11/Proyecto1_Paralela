@@ -9,7 +9,7 @@ static inline float hash2(int x, int y){
     return float((h ^ (h >> 16u)) & 0x00FFFFFFu) / float(0x01000000);
 }
 
-void accumulate_heightfield_sequential(
+void accumulate_heightfield(
     std::vector<float>& H,
     std::vector<float>& CR,
     std::vector<float>& CG,

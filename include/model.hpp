@@ -3,7 +3,7 @@
 #include "waves.hpp"
 
 // Acumula campo H y, opcionalmente, inyecta tinta CR/CG/CB
-void accumulate_heightfield_sequential(
+void accumulate_heightfield(
     std::vector<float>& H,
     std::vector<float>& CR,
     std::vector<float>& CG,
