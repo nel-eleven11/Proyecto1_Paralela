@@ -2,24 +2,35 @@
 
 > **Proyecto 1 – Computación Paralela y Distribuida**  
 > Simulador/”screensaver” de ondas por gotas de lluvia con **modelo físico simple**, **sombreado realista** y **FPS en vivo**.  
-> Versión **secuencial** optimizada y *lista para paralelizar* con OpenMP.
+> Incluye **versión secuencial** y **versión paralela (OpenMP)**.
+
+---
+
+## 👥 Créditos
+
+- **Autoría (equipo)**: 
+  - Nelson García
+  - Gabriel Paz
+  - Joaquín Puente
+- **Tecnologías**: C++17, SDL2, CMake.  
+
 
 ---
 
 ## ✨ Características
 
-- **Ondas de lluvia** por *superposición lineal* de aportes de cada gota.
-- **Modelo radial realista**: envolvente gaussiana + **portadora radial** y atenuación **1/√r**.
-- **Detalles**: *ripples capilares* y *splash* inicial (corona breve).
+- **Ondas de lluvia** por *superposición lineal* de contribuciones de cada gota (interferencia constructiva/destructiva).
+- **Modelo radial realista**: envolvente gaussiana, portadora radial y amortiguamiento temporal.
+- **Detalles visuales**: *ripples capilares* alrededor de la cresta y *splash* inicial (corona breve y sutil).
 - **Sombreado “agua”**:
-  - Normales del campo de alturas (diferencias finitas).
-  - **Fresnel (Schlick)** + **reflexión de cielo procedural**.
-  - **Absorción espectral** (agua filtra R>G>B) + especular Blinn‑Phong.
-  - Vignette sutil y *gamma correction*.
-- **FPS en el título** (y opcional en consola).
-- **Culling inteligente**: solo se computa la banda activa del anillo → *gran* boost de FPS.
-- **CLI sin hard‑codes** (ancho, alto, N, semilla, paleta, vsync, profiling, etc.).
-- **CMake + SDL2** multiplataforma (Linux, WSL, Windows, macOS).
+  - Normales del **campo de alturas H(x,y)** por diferencias finitas.
+  - Iluminación **Lambert + Blinn-Phong** con realce especular; mezcla tipo Fresnel (Schlick) y gradiente de cielo.
+  - Ajustes suaves: absorción por espesor, leve vignette y corrección gamma.
+- **FPS en el título** (y opcional por consola).
+- **Backends**:
+  - `screensaver` → **secuencial**
+  - `screensaver_parallel` → **OpenMP**, configurable con hilos.
+- **CMake + SDL2** multiplataforma (Linux, Windows, macOS/WSL).
 
 ---
 
@@ -29,27 +40,32 @@
 screensaver-openmp/
 ├─ CMakeLists.txt
 ├─ include/
-│  ├─ config.hpp        # parseo de argumentos y AppConfig
-│  ├─ rng.hpp           # RNG reproducible (semilla opcional)
-│  ├─ waves.hpp         # structs Drop/WaveParams/World + ripple_contrib()
-│  ├─ model.hpp         # API de acumulación del height field
-│  ├─ shading.hpp       # shading agua + helpers de textura
-│  └─ render_sdl.hpp    # (stub) helpers SDL
+│ ├─ config.hpp # AppConfig y helpers de CLI
+│ ├─ rng.hpp # RNG reproducible (semilla opcional)
+│ ├─ waves.hpp # Drop/WaveParams/World + ripple_contrib()
+│ ├─ model.hpp # API para acumular el height field H(x,y)
+│ ├─ shading.hpp # Sombreado basado en normales
+│ └─ render_sdl.hpp # Helpers SDL (textura/buffer, present)
 └─ src/
-   ├─ main.cpp          # loop principal, eventos, FPS, perfilado
-   ├─ waves.cpp         # respawn y física de la onda (con/ripple_contrib)
-   ├─ model_seq.cpp     # IMPLEMENTACIÓN SECUENCIAL con culling por anillo
-   ├─ shading.cpp       # iluminación (Fresnel, env, absorción, especular)
-   └─ render_sdl.cpp    # (stub) separado por claridad
+├─ main.cpp # Loop principal, eventos, FPS y selección de backend
+├─ waves.cpp # Respawn de gotas y parámetros físicos/visuales
+├─ model_seq.cpp # IMPLEMENTACIÓN SECUENCIAL (acumulación de H)
+├─ model_omp.cpp # IMPLEMENTACIÓN PARALELA (OpenMP) de la acumulación
+├─ shading.cpp # Cálculo de normales y composición del color
+└─ render_sdl.cpp # SDL en hilo principal (ventana/renderer/textura)
 ```
 
 ---
 
 ## 🛠️ Dependencias
 
-- **CMake** ≥ 3.20
-- **C++17** (gcc/clang/MSVC)
-- **SDL2** (runtime y dev headers)
+- **CMake** ≥ 3.20  
+- **C++17** (gcc/clang/MSVC)  
+- **SDL2** (runtime + dev headers)  
+- **OpenMP**  
+  - **GCC**: viene con `-fopenmp` (Linux/macOS/MinGW).  
+  - **Clang**: instalar `libomp`/`openmp`.  
+  - **MSVC** (Visual Studio): habilitar `/openmp`.
 
 ### Linux / WSL (Ubuntu recomendado)
 ```bash
@@ -98,9 +114,21 @@ cmake --build build -j
 
 ## ▶️ Ejecutar
 
+Secuencial
 ```bash
 ./build/screensaver --width 1024 --height 768 --N 8
 ```
+
+Paralelo
+```bash
+./build/screensaver_parallel --width 1024 --height 768 --N 8
+```
+
+#### Control de hilos (elige uno)
+export OMP_NUM_THREADS=8          # Linux/macOS
+set OMP_NUM_THREADS=8             # Windows (cmd)
+$env:OMP_NUM_THREADS=8            # PowerShell
+
 
 ### Parámetros CLI
 
@@ -127,6 +155,9 @@ cmake --build build -j
 
 # Paleta estética “aqua” con superficie más plana
 ./build/screensaver -w 1024 -h 768 -n 8 --palette aqua --slope 5
+
+# Paralelo con 8 hilos
+OMP_NUM_THREADS=8 ./build/screensaver_parallel -w 1024 -h 768 -n 8
 ```
 
 ---
@@ -160,6 +191,11 @@ El **height field** es la **suma lineal** de todas las gotas.
 - **Absorción espectral** por espesor (|H|): `T = e^{ -k_rgb * thickness }`.
 - **Gamma correction** y **vignette** suave.
 
+### 3) Paralelización (OpenMP):
+
+- Versión paralela para la acumulación del height field, repartiendo trabajo por píxel o por tiles.
+- SDL permanece en el hilo principal (presentación).
+
 ---
 
 ## 📈 Validación y FPS
@@ -174,28 +210,6 @@ El **height field** es la **suma lineal** de todas las gotas.
 
 ---
 
-## 🧵 Lista para paralelizar (OpenMP)
-
-La API de acumulación está aislada en `model.hpp` y la versión secuencial en `src/model_seq.cpp`:
-
-```cpp
-void accumulate_heightfield_sequential(
-    std::vector<float>& H, int W, int Hh,
-    const std::vector<Drop>& drops, float t_now);
-```
-
-### Sugerencia de ruta paralela (no incluida aún)
-
-- Crear `src/model_omp.cpp` con una función con la **misma firma** o una variante `accumulate_heightfield_omp(...)`.
-- Estrategias:
-  1. **Por gota**, paralelizando los doble-bucles `(y,x)` dentro del ROI de cada gota con *reducción* en H (requiere cuidado de condiciones de carrera → tiling o acumuladores por hilo y *merge*).
-  2. **Por píxel** (doble bucle exterior) y sumar todas las gotas (fácil, pero más cómputo “vacío”, aunque OpenMP lo reparte bien).
-- Directivas típicas: `#pragma omp parallel for schedule(static)`; si usas buffers por hilo, combina con `reduction(+: ...)` o *merge* manual.
-
-> El diseño actual separa por completo **física** y **render**, evitando conflictos con SDL (debe quedar en el hilo principal).
-
----
-
 ## 🧩 Troubleshooting
 
 - **La ventana va a 60 FPS exactos** aunque `--novsync`: revisa que tu backend SDL no fuerce vsync o que tu compositor (Wayland/Xorg) no lo imponga.
@@ -203,31 +217,3 @@ void accumulate_heightfield_sequential(
 - **Pantalla negra**: verifica que `libsdl2-dev` esté instalado y que CMake encontró `SDL2::SDL2`.
 
 ---
-
-## 👥 Créditos
-
-- **Autoría (equipo)**: *[agrega tus nombres]*  
-- **Tecnologías**: C++17, SDL2, CMake.  
-- **Inspiración**: ondas capilares, shading PBR simplificado y Fresnel de Schlick.
-
----
-
-## 📜 Licencia
-
-MIT (o la que defina el curso/tu equipo).
-
----
-
-## 🧪 Comandos rápidos
-
-```bash
-# Compilación rápida
-cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo && cmake --build build -j
-
-# Ejecuciones recomendadas
-./build/screensaver -w 800 -h 600 -n 6 --fpslog
-./build/screensaver -w 1280 -h 720 -n 10 --palette real --profile
-./build/screensaver -w 1024 -h 768 -n 8 --palette aqua --slope 5
-
-./build/screensaver_parallel --width 800 --height 600 --N 5 --spawn-rate 0.5
-```
