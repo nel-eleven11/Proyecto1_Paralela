@@ -121,7 +121,7 @@ if __name__ == "__main__":
 Para probar secuencial
 
 W=1024; H=768; SEED=42; DURATION=15
-for N in 4 8 16 32 64; do
+for N in 50 100 200; do
   for i in $(seq -w 1 10); do
     timeout ${DURATION}s ./build/screensaver \
       --width $W --height $H --N $N --seed $SEED \
@@ -137,7 +137,7 @@ Para probar paralela
 
 P=$(nproc)   # o P=8
 W=1024; H=768; SEED=42; DURATION=15
-for N in 4 8 16 32 64; do
+for N in 50 100 200; do
   for i in $(seq -w 1 10); do
     OMP_NUM_THREADS=$P timeout ${DURATION}s ./build/screensaver_parallel \
       --width $W --height $H --N $N --seed $SEED \

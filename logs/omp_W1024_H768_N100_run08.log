@@ -1,0 +1,147 @@
+Renderer: opengl
+sim+ink(parallel)=20.754 ms, shade+present(parallel)=26.3581 ms
+sim+ink(parallel)=24.455 ms, shade+present(parallel)=30.5548 ms
+sim+ink(parallel)=23.1657 ms, shade+present(parallel)=25.476 ms
+sim+ink(parallel)=24.5302 ms, shade+present(parallel)=24.5128 ms
+sim+ink(parallel)=28.5126 ms, shade+present(parallel)=23.3119 ms
+sim+ink(parallel)=28.5476 ms, shade+present(parallel)=25.2237 ms
+sim+ink(parallel)=32.808 ms, shade+present(parallel)=28.3182 ms
+sim+ink(parallel)=38.5171 ms, shade+present(parallel)=26.0474 ms
+sim+ink(parallel)=41.0646 ms, shade+present(parallel)=25.6396 ms
+sim+ink(parallel)=47.1984 ms, shade+present(parallel)=25.8228 ms
+sim+ink(parallel)=51.5372 ms, shade+present(parallel)=25.7692 ms
+sim+ink(parallel)=56.7462 ms, shade+present(parallel)=25.3016 ms
+sim+ink(parallel)=58.8296 ms, shade+present(parallel)=29.4162 ms
+sim+ink(parallel)=65.9436 ms, shade+present(parallel)=28.903 ms
+sim+ink(parallel)=67.1664 ms, shade+present(parallel)=29.097 ms
+sim+ink(parallel)=71.6431 ms, shade+present(parallel)=34.64 ms
+FPS: 16
+sim+ink(parallel)=127.105 ms, shade+present(parallel)=46.8321 ms
+sim+ink(parallel)=92.7857 ms, shade+present(parallel)=29.3137 ms
+sim+ink(parallel)=93.0466 ms, shade+present(parallel)=25.2499 ms
+sim+ink(parallel)=96.6325 ms, shade+present(parallel)=26.159 ms
+sim+ink(parallel)=99.7642 ms, shade+present(parallel)=25.3455 ms
+sim+ink(parallel)=106.65 ms, shade+present(parallel)=28.8766 ms
+sim+ink(parallel)=110.39 ms, shade+present(parallel)=25.4624 ms
+sim+ink(parallel)=105.174 ms, shade+present(parallel)=25.5658 ms
+FPS: 14
+sim+ink(parallel)=98.5981 ms, shade+present(parallel)=28.1773 ms
+sim+ink(parallel)=102.774 ms, shade+present(parallel)=25.2558 ms
+sim+ink(parallel)=101.774 ms, shade+present(parallel)=25.2165 ms
+sim+ink(parallel)=106.502 ms, shade+present(parallel)=25.3922 ms
+sim+ink(parallel)=102.056 ms, shade+present(parallel)=27.7809 ms
+sim+ink(parallel)=101.865 ms, shade+present(parallel)=26.0849 ms
+sim+ink(parallel)=99.046 ms, shade+present(parallel)=25.3158 ms
+sim+ink(parallel)=95.8021 ms, shade+present(parallel)=25.4706 ms
+FPS: 13
+sim+ink(parallel)=89.4369 ms, shade+present(parallel)=29.9166 ms
+sim+ink(parallel)=90.4941 ms, shade+present(parallel)=25.2571 ms
+sim+ink(parallel)=83.3566 ms, shade+present(parallel)=25.1981 ms
+sim+ink(parallel)=81.8028 ms, shade+present(parallel)=25.4484 ms
+sim+ink(parallel)=71.0888 ms, shade+present(parallel)=25.1816 ms
+sim+ink(parallel)=70.9233 ms, shade+present(parallel)=25.2594 ms
+sim+ink(parallel)=70.6666 ms, shade+present(parallel)=25.1655 ms
+sim+ink(parallel)=73.0602 ms, shade+present(parallel)=25.7329 ms
+sim+ink(parallel)=85.3716 ms, shade+present(parallel)=25.7817 ms
+sim+ink(parallel)=78.1339 ms, shade+present(parallel)=25.3336 ms
+FPS: 12
+sim+ink(parallel)=80.468 ms, shade+present(parallel)=25.2837 ms
+sim+ink(parallel)=84.9675 ms, shade+present(parallel)=25.0982 ms
+sim+ink(parallel)=84.3831 ms, shade+present(parallel)=25.3614 ms
+sim+ink(parallel)=90.3407 ms, shade+present(parallel)=25.1863 ms
+sim+ink(parallel)=92.6236 ms, shade+present(parallel)=27.5255 ms
+sim+ink(parallel)=99.3957 ms, shade+present(parallel)=26.1981 ms
+sim+ink(parallel)=95.5214 ms, shade+present(parallel)=25.7913 ms
+sim+ink(parallel)=100.883 ms, shade+present(parallel)=25.144 ms
+sim+ink(parallel)=98.4491 ms, shade+present(parallel)=26.7265 ms
+FPS: 11
+sim+ink(parallel)=98.3166 ms, shade+present(parallel)=24.9483 ms
+sim+ink(parallel)=95.7363 ms, shade+present(parallel)=25.1513 ms
+sim+ink(parallel)=100.281 ms, shade+present(parallel)=25.3047 ms
+sim+ink(parallel)=94.0636 ms, shade+present(parallel)=24.9859 ms
+sim+ink(parallel)=97.2226 ms, shade+present(parallel)=26.883 ms
+sim+ink(parallel)=96.0814 ms, shade+present(parallel)=25.3666 ms
+sim+ink(parallel)=98.1286 ms, shade+present(parallel)=25.3311 ms
+sim+ink(parallel)=92.554 ms, shade+present(parallel)=25.8947 ms
+sim+ink(parallel)=97.503 ms, shade+present(parallel)=29.5917 ms
+FPS: 11
+sim+ink(parallel)=86.4104 ms, shade+present(parallel)=26.4508 ms
+sim+ink(parallel)=84.7584 ms, shade+present(parallel)=28.7212 ms
+sim+ink(parallel)=76.635 ms, shade+present(parallel)=25.2213 ms
+sim+ink(parallel)=107.499 ms, shade+present(parallel)=46.8591 ms
+sim+ink(parallel)=80.6389 ms, shade+present(parallel)=25.6629 ms
+sim+ink(parallel)=81.3045 ms, shade+present(parallel)=34.4617 ms
+sim+ink(parallel)=78.5212 ms, shade+present(parallel)=31.0623 ms
+sim+ink(parallel)=82.9621 ms, shade+present(parallel)=25.1534 ms
+sim+ink(parallel)=84.4153 ms, shade+present(parallel)=25.248 ms
+FPS: 10
+sim+ink(parallel)=87.9032 ms, shade+present(parallel)=31.4467 ms
+sim+ink(parallel)=94.3234 ms, shade+present(parallel)=25.1284 ms
+sim+ink(parallel)=93.2204 ms, shade+present(parallel)=27.2707 ms
+sim+ink(parallel)=96.9323 ms, shade+present(parallel)=27.0779 ms
+sim+ink(parallel)=98.4156 ms, shade+present(parallel)=26.0116 ms
+sim+ink(parallel)=97.6124 ms, shade+present(parallel)=25.373 ms
+sim+ink(parallel)=95.9109 ms, shade+present(parallel)=25.1702 ms
+sim+ink(parallel)=94.0187 ms, shade+present(parallel)=27.4477 ms
+sim+ink(parallel)=96.4032 ms, shade+present(parallel)=26.158 ms
+FPS: 10
+sim+ink(parallel)=100.756 ms, shade+present(parallel)=24.1027 ms
+sim+ink(parallel)=94.5988 ms, shade+present(parallel)=25.042 ms
+sim+ink(parallel)=102.759 ms, shade+present(parallel)=26.1708 ms
+sim+ink(parallel)=96.0714 ms, shade+present(parallel)=25.0909 ms
+sim+ink(parallel)=102.002 ms, shade+present(parallel)=25.2918 ms
+sim+ink(parallel)=91.6802 ms, shade+present(parallel)=25.1409 ms
+sim+ink(parallel)=90.8708 ms, shade+present(parallel)=30.0247 ms
+sim+ink(parallel)=88.7539 ms, shade+present(parallel)=26.4938 ms
+sim+ink(parallel)=82.4772 ms, shade+present(parallel)=27.2539 ms
+FPS: 10
+sim+ink(parallel)=83.0286 ms, shade+present(parallel)=25.2121 ms
+sim+ink(parallel)=83.5711 ms, shade+present(parallel)=24.2206 ms
+sim+ink(parallel)=82.3314 ms, shade+present(parallel)=29.9912 ms
+sim+ink(parallel)=83.6269 ms, shade+present(parallel)=26.5808 ms
+sim+ink(parallel)=87.4473 ms, shade+present(parallel)=25.1514 ms
+sim+ink(parallel)=83.5354 ms, shade+present(parallel)=24.2462 ms
+sim+ink(parallel)=86.5451 ms, shade+present(parallel)=30.0982 ms
+sim+ink(parallel)=87.9928 ms, shade+present(parallel)=26.419 ms
+sim+ink(parallel)=90.3236 ms, shade+present(parallel)=28.6639 ms
+FPS: 9
+sim+ink(parallel)=92.3842 ms, shade+present(parallel)=25.1183 ms
+sim+ink(parallel)=94.1387 ms, shade+present(parallel)=25.5227 ms
+sim+ink(parallel)=96.793 ms, shade+present(parallel)=25.2125 ms
+sim+ink(parallel)=97.2629 ms, shade+present(parallel)=26.1062 ms
+sim+ink(parallel)=94.3609 ms, shade+present(parallel)=25.1984 ms
+sim+ink(parallel)=94.7183 ms, shade+present(parallel)=25.1852 ms
+sim+ink(parallel)=99.1944 ms, shade+present(parallel)=25.1147 ms
+sim+ink(parallel)=99.2081 ms, shade+present(parallel)=28.6546 ms
+sim+ink(parallel)=101.07 ms, shade+present(parallel)=24.112 ms
+FPS: 9
+sim+ink(parallel)=101.03 ms, shade+present(parallel)=25.1409 ms
+sim+ink(parallel)=95.6794 ms, shade+present(parallel)=24.3825 ms
+sim+ink(parallel)=94.4866 ms, shade+present(parallel)=24.7396 ms
+sim+ink(parallel)=95.2396 ms, shade+present(parallel)=28.235 ms
+sim+ink(parallel)=93.7783 ms, shade+present(parallel)=24.2111 ms
+sim+ink(parallel)=93.8807 ms, shade+present(parallel)=25.1076 ms
+sim+ink(parallel)=93.8778 ms, shade+present(parallel)=24.206 ms
+sim+ink(parallel)=92.6261 ms, shade+present(parallel)=25.0908 ms
+sim+ink(parallel)=92.3131 ms, shade+present(parallel)=27.5245 ms
+FPS: 9
+sim+ink(parallel)=93.4943 ms, shade+present(parallel)=27.3677 ms
+sim+ink(parallel)=99.8529 ms, shade+present(parallel)=25.2155 ms
+sim+ink(parallel)=91.0002 ms, shade+present(parallel)=25.1754 ms
+sim+ink(parallel)=90.0703 ms, shade+present(parallel)=25.1198 ms
+sim+ink(parallel)=89.4548 ms, shade+present(parallel)=30.9338 ms
+sim+ink(parallel)=86.5201 ms, shade+present(parallel)=31.5785 ms
+sim+ink(parallel)=87.3378 ms, shade+present(parallel)=29.9471 ms
+sim+ink(parallel)=83.6269 ms, shade+present(parallel)=24.2276 ms
+sim+ink(parallel)=83.737 ms, shade+present(parallel)=24.3845 ms
+FPS: 9
+sim+ink(parallel)=88.149 ms, shade+present(parallel)=25.2785 ms
+sim+ink(parallel)=88.7276 ms, shade+present(parallel)=24.3013 ms
+sim+ink(parallel)=103.715 ms, shade+present(parallel)=46.3492 ms
+sim+ink(parallel)=97.4171 ms, shade+present(parallel)=24.8556 ms
+sim+ink(parallel)=94.8622 ms, shade+present(parallel)=25.2552 ms
+sim+ink(parallel)=92.1342 ms, shade+present(parallel)=24.5587 ms
+sim+ink(parallel)=93.6378 ms, shade+present(parallel)=29.5937 ms
+sim+ink(parallel)=91.0049 ms, shade+present(parallel)=25.2708 ms
+sim+ink(parallel)=96.1121 ms, shade+present(parallel)=25.863 ms
+FPS: 9

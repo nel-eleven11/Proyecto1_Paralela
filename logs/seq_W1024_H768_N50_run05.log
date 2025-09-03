@@ -1,0 +1,111 @@
+Renderer: opengl
+sim+ink=29.4244 ms, shade+present=67.7724 ms
+sim+ink=31.3691 ms, shade+present=65.9853 ms
+sim+ink=33.0074 ms, shade+present=67.824 ms
+sim+ink=45.2751 ms, shade+present=112.335 ms
+sim+ink=52.4163 ms, shade+present=66.3409 ms
+sim+ink=54.8 ms, shade+present=65.2935 ms
+sim+ink=61.4729 ms, shade+present=67.1077 ms
+sim+ink=68.4139 ms, shade+present=64.9812 ms
+sim+ink=74.6036 ms, shade+present=65.4151 ms
+sim+ink=84.8201 ms, shade+present=66.6604 ms
+FPS= 9.13455
+sim+ink=95.2424 ms, shade+present=66.9529 ms
+sim+ink=104.615 ms, shade+present=66.0749 ms
+sim+ink=107.947 ms, shade+present=65.6787 ms
+sim+ink=116.113 ms, shade+present=65.6491 ms
+sim+ink=123.065 ms, shade+present=66.0923 ms
+sim+ink=111.043 ms, shade+present=65.4655 ms
+FPS= 8.47365
+sim+ink=112.813 ms, shade+present=65.2289 ms
+sim+ink=110.393 ms, shade+present=66.1323 ms
+sim+ink=112.64 ms, shade+present=65.4892 ms
+sim+ink=98.0315 ms, shade+present=64.8292 ms
+sim+ink=98.9658 ms, shade+present=65.9818 ms
+sim+ink=93.483 ms, shade+present=68.5319 ms
+FPS= 7.93581
+sim+ink=95.348 ms, shade+present=64.3836 ms
+sim+ink=80.5235 ms, shade+present=66.2928 ms
+sim+ink=74.8731 ms, shade+present=66.1007 ms
+sim+ink=61.3207 ms, shade+present=65.0341 ms
+sim+ink=63.0454 ms, shade+present=65.5085 ms
+sim+ink=69.0864 ms, shade+present=65.8397 ms
+sim+ink=73.8588 ms, shade+present=66.3283 ms
+sim+ink=77.8363 ms, shade+present=66.1743 ms
+FPS= 7.75244
+sim+ink=82.674 ms, shade+present=65.7107 ms
+sim+ink=86.0279 ms, shade+present=66.364 ms
+sim+ink=92.2453 ms, shade+present=66.403 ms
+sim+ink=88.6282 ms, shade+present=65.8561 ms
+sim+ink=90.9285 ms, shade+present=65.7383 ms
+sim+ink=88.7087 ms, shade+present=66.3092 ms
+sim+ink=88.5613 ms, shade+present=65.2571 ms
+FPS= 7.51059
+sim+ink=92.0464 ms, shade+present=65.0477 ms
+sim+ink=95.2626 ms, shade+present=65.7631 ms
+sim+ink=91.5727 ms, shade+present=66.0774 ms
+sim+ink=93.8397 ms, shade+present=65.6454 ms
+sim+ink=91.605 ms, shade+present=64.8016 ms
+sim+ink=95.1117 ms, shade+present=65.9911 ms
+sim+ink=95.8298 ms, shade+present=66.6102 ms
+FPS= 7.27339
+sim+ink=94.5037 ms, shade+present=65.4641 ms
+sim+ink=94.0446 ms, shade+present=65.8959 ms
+sim+ink=88.5163 ms, shade+present=65.576 ms
+sim+ink=85.1954 ms, shade+present=66.2175 ms
+sim+ink=87.1589 ms, shade+present=65.2031 ms
+sim+ink=77.4212 ms, shade+present=65.4323 ms
+sim+ink=84.985 ms, shade+present=64.7248 ms
+FPS= 7.11107
+sim+ink=86.0682 ms, shade+present=66.0668 ms
+sim+ink=88.6345 ms, shade+present=64.4501 ms
+sim+ink=93.0756 ms, shade+present=66.5727 ms
+sim+ink=90.742 ms, shade+present=65.2982 ms
+sim+ink=93.0377 ms, shade+present=66.5082 ms
+sim+ink=88.23 ms, shade+present=66.2741 ms
+sim+ink=90.0907 ms, shade+present=65.64 ms
+FPS= 6.97931
+sim+ink=95.0492 ms, shade+present=65.7799 ms
+sim+ink=86.6427 ms, shade+present=65.7856 ms
+sim+ink=80.4904 ms, shade+present=65.9929 ms
+sim+ink=84.1531 ms, shade+present=65.9692 ms
+sim+ink=85.1329 ms, shade+present=65.7836 ms
+sim+ink=92.3073 ms, shade+present=65.731 ms
+sim+ink=86.0521 ms, shade+present=65.4519 ms
+FPS= 6.88604
+sim+ink=84.3174 ms, shade+present=65.0831 ms
+sim+ink=91.6391 ms, shade+present=66.1237 ms
+sim+ink=96.0776 ms, shade+present=65.6294 ms
+sim+ink=94.7148 ms, shade+present=66.973 ms
+sim+ink=99.1362 ms, shade+present=66.5006 ms
+sim+ink=91.2429 ms, shade+present=65.7848 ms
+sim+ink=88.538 ms, shade+present=66.7705 ms
+FPS= 6.77587
+sim+ink=93.1675 ms, shade+present=67.8988 ms
+sim+ink=90.6928 ms, shade+present=68.5179 ms
+sim+ink=99.9308 ms, shade+present=68.9655 ms
+sim+ink=97.8878 ms, shade+present=70.0748 ms
+sim+ink=98.4428 ms, shade+present=69.5687 ms
+sim+ink=97.2298 ms, shade+present=69.9529 ms
+sim+ink=95.5895 ms, shade+present=70.3022 ms
+FPS= 6.64034
+sim+ink=92.1327 ms, shade+present=69.7715 ms
+sim+ink=95.9404 ms, shade+present=69.9281 ms
+sim+ink=96.0314 ms, shade+present=70.4397 ms
+sim+ink=96.9828 ms, shade+present=69.9183 ms
+sim+ink=92.2161 ms, shade+present=69.8607 ms
+sim+ink=76.1698 ms, shade+present=71.3444 ms
+sim+ink=77.9758 ms, shade+present=69.9055 ms
+FPS= 6.54375
+sim+ink=81.6788 ms, shade+present=70.2745 ms
+sim+ink=80.2269 ms, shade+present=69.6719 ms
+sim+ink=98.9864 ms, shade+present=74.3556 ms
+sim+ink=95.294 ms, shade+present=72.5547 ms
+sim+ink=97.7517 ms, shade+present=70.061 ms
+sim+ink=104.932 ms, shade+present=70.0602 ms
+sim+ink=106.952 ms, shade+present=71.9211 ms
+FPS= 6.46957
+sim+ink=101.927 ms, shade+present=71.4891 ms
+sim+ink=99.5587 ms, shade+present=71.2393 ms
+sim+ink=100.141 ms, shade+present=70.3303 ms
+sim+ink=101.242 ms, shade+present=70.5113 ms
