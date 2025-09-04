@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-# Suite A – EndeavourOS: solo variamos N
-# Lee logs/*.log, crea results_suiteA.csv y calcula speedup/eficiencia por N.
-
 import re, sys, os, argparse
 import pandas as pd
 
@@ -11,25 +7,24 @@ CSV_SPEEDUP = "logs/suiteA_speedup_eficiencia.csv"
 
 # Regex para nombres de archivo:
 # seq_W1024_H768_N16_run01.log
-# omp8_W1024_H768_N16_run01.log
+#  - omp_W1024_H768_N50_run01.log               (sin número de hilos)
+#  - omp8_W1024_H768_N50_run01.log              (con número de hilos)
 NAME_RE = re.compile(
-    r"^(?:(seq)|omp(\d+))_W(\d+)_H(\d+)_N(\d+)_run(\d+)\.log$"
+    r"^(?:(seq)|omp(?:_(\d+))?)_W(\d+)_H(\d+)_N(\d+)_run(\d+)\.log$"
 )
 
-SIM_PAT   = re.compile(r'(?:sim(?:\+ink)?)=\s*([0-9]*\.?[0-9]+)')
-SHADE_PAT = re.compile(r'shade\+present=\s*([0-9]*\.?[0-9]+)')
-FPS_PAT   = re.compile(r'FPS=\s*([0-9]*\.?[0-9]+)')
+SIM_PAT   = re.compile(r'(?:sim(?:\+ink)?(?:\([^)]+\))?)=\s*([0-9]*\.?[0-9]+)')
+SHADE_PAT = re.compile(r'(?:shade\+present(?:\([^)]+\))?)=\s*([0-9]*\.?[0-9]+)')
+FPS_PAT   = re.compile(r'FPS\s*[:=]\s*([0-9]*\.?[0-9]+)')
 
 def parse_log_file(path):
     txt = open(path, "r", encoding="utf-8", errors="ignore").read()
-
     def mean_from(pat):
         vals = [float(x) for x in pat.findall(txt)]
         return (sum(vals)/len(vals)) if vals else float("nan")
-
-    sim  = mean_from(SIM_PAT)      # ahora captura sim=... o sim+ink=...
-    shd  = mean_from(SHADE_PAT)    # shade+present=...
-    fps  = mean_from(FPS_PAT)      # acepta 'FPS= 8.64' y 'FPS=8.64'
+    sim  = mean_from(SIM_PAT)
+    shd  = mean_from(SHADE_PAT)
+    fps  = mean_from(FPS_PAT)
     return sim, shd, fps
 
 def scan_logs(log_dir):
@@ -43,7 +38,7 @@ def scan_logs(log_dir):
             continue
         seq_tag, p_str, W, H, N, run = m.groups()
         mode = "seq" if seq_tag else "omp"
-        p = 1 if seq_tag else int(p_str)
+        p = 1 if mode=="seq" else (int(p_str) if p_str else 0)
         sim, shd, fps = parse_log_file(os.path.join(log_dir, fn))
         rows.append({
             "suite": "A",
@@ -60,35 +55,71 @@ def scan_logs(log_dir):
     return pd.DataFrame(rows)
 
 def compute_speedup(df):
-    # promedio por configuración (N, mode, p)
-    g = df.groupby(["N","mode","p"], as_index=False)["mean_sim_ms"].mean()
-    base = g[g["mode"]=="seq"][["N","mean_sim_ms"]].rename(columns={"mean_sim_ms":"Tseq_ms"})
-    omp  = g[g["mode"]=="omp"].copy()
+    """
+    Devuelve una tabla por (N, p) con:
+      - Tseq_ms:  tiempo medio de simulación secuencial
+      - Tpar_ms:  tiempo medio de simulación paralelo (p hilos)
+      - Speedup:  Tseq_ms / Tpar_ms
+      - Eficiencia: Speedup / p
+      - FPS_seq:  FPS medio en secuencial (baseline por N)
+      - FPS_omp:  FPS medio en paralelo (por N, p)
+    """
+    # Promedios por configuración (N, mode, p)
+    g = df.groupby(["N", "mode", "p"], as_index=False).agg(
+        mean_sim_ms=("mean_sim_ms", "mean"),
+        mean_FPS=("mean_FPS", "mean"),
+    )
+
+    base = g[g["mode"] == "seq"][["N", "mean_sim_ms", "mean_FPS"]].rename(
+        columns={"mean_sim_ms": "Tseq_ms", "mean_FPS": "FPS_seq"}
+    )
+    omp = g[g["mode"] == "omp"][["N", "p", "mean_sim_ms", "mean_FPS"]].rename(
+        columns={"mean_sim_ms": "Tpar_ms", "mean_FPS": "FPS_omp"}
+    )
 
     if omp.empty:
         print("⚠️  No se encontraron corridas paralelas (mode=omp).")
         return pd.DataFrame()
 
-    out = []
-    for N, sub in omp.groupby("N"):
-        row_base = base[base["N"]==N]
-        if row_base.empty:
-            # No hay baseline secuencial para este N
+    rows = []
+    for _, r in omp.iterrows():
+        N = int(r["N"])
+        p = int(r["p"])
+        Tpar = float(r["Tpar_ms"])
+        FPS_omp = float(r["FPS_omp"])
+
+        base_row = base[base["N"] == N]
+        if base_row.empty:
             continue
-        Tseq = float(row_base["Tseq_ms"])
-        for _, r in sub.iterrows():
-            p = int(r["p"]); Tpar = float(r["mean_sim_ms"])
-            S = Tseq / Tpar if Tpar>0 else float("nan")
-            E = S / p if p>0 else float("nan")
-            out.append({"N":N, "p":p, "Tseq_ms":Tseq, "Tpar_ms":Tpar, "Speedup":S, "Eficiencia":E})
-    res = pd.DataFrame(out)
-    return res.sort_values(["N","p"]) if not res.empty else res
+
+        # usar .iloc[0] para evitar FutureWarning
+        Tseq = float(base_row["Tseq_ms"].iloc[0])
+        FPS_seq = float(base_row["FPS_seq"].iloc[0])
+
+        S = Tseq / Tpar if Tpar > 0 else float("nan")
+        E = S / p if p > 0 else float("nan")
+
+        rows.append({
+            "N": N,
+            "p": p,
+            "Tseq_ms": Tseq,
+            "Tpar_ms": Tpar,
+            "Speedup": S,
+            "Eficiencia": E,
+            "FPS_seq": FPS_seq,
+            "FPS_omp": FPS_omp,
+        })
+
+    res = pd.DataFrame(rows)
+    return res.sort_values(["N", "p"]) if not res.empty else res
+
 
 def main():
     ap = argparse.ArgumentParser(description="Suite A – Procesa logs y calcula speedup/eficiencia por N.")
     ap.add_argument("--logs", default=LOG_DIR_DEFAULT, help="Carpeta con archivos .log (por defecto: logs)")
     ap.add_argument("--csv", default=CSV_OUT, help="Ruta para results_suiteA.csv")
     ap.add_argument("--speedup_csv", default=CSV_SPEEDUP, help="Ruta para suiteA_speedup_eficiencia.csv")
+    ap.add_argument("--threads", type=int, default=0, help="Número de hilos OMP a usar cuando los logs 'omp_' no incluyen el número en el nombre (default: 0 = desconocido).")
     args = ap.parse_args()
 
     if not os.path.isdir(args.logs):
@@ -98,11 +129,14 @@ def main():
     if df.empty:
         sys.exit("No se encontraron logs válidos (nombres esperados: seq_W... o ompP_W...).")
 
+    if args.threads > 0:
+        df.loc[(df["mode"]=="omp") & (df["p"]==0), "p"] = args.threads
+
     # Guarda resultados por corrida
     df_sorted = df.sort_values(["mode","N","p","run"])
     df_sorted.to_csv(args.csv, index=False)
     print(f"✅ Escrito {args.csv} con {len(df_sorted)} filas.")
-    print(df_sorted.head(10).to_string(index=False))
+    print(df_sorted.to_string(index=False))
 
     # Calcula speedup/eficiencia por N (si hay OMP)
     speed = compute_speedup(df_sorted)
@@ -118,6 +152,8 @@ if __name__ == "__main__":
 
 
 """
+python logs/pruebas.py --logs logs --threads 8
+
 Para probar secuencial
 
 W=1024; H=768; SEED=42; DURATION=15
